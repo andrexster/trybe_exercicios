@@ -8,8 +8,31 @@ body{
 }
 
 .game{
-  background-color: black;
-  height: 700px;
+  background-color: gray;
   width: 50%;
+  height: 650px;
   margin: 0 auto;
+  padding-top: 20px;
+  border-radius: 2%;
+}
+
+.matriz{
+    background-color: antiquewhite;
+    /*height: 80%;*/
+    width: 423px;
+    margin: 0 auto;
+    border: 3px solid black;
+}
+
+.line{
+  max-height: 40px;
+  height: 40px;
+ 
+}
+
+.cell{
+  border: solid black 1px;
+  height: 40px;
+  width: 40px;
+  display: inline-block;
 }
