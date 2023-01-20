@@ -1,10 +1,47 @@
 const arrayWords = ['LARANJA', 'PERA', 'GOIABA', 'UVA', 'MANGA'];
 let wordSelected = '';
 
+const saveGame = () =>{
+  const matriz = document.querySelector('.matriz');
+  localStorage.setItem('matrizKey', JSON.stringify(matriz.innerHTML));
+
+  const listItens = document.querySelector('ul');
+  localStorage.setItem('ListKey', JSON.stringify(listItens.innerHTML));
+}
+
+const loadGame = () =>{
+  const matriz = document.querySelector('.matriz');
+  matriz.innerHTML = JSON.parse(localStorage.getItem('matrizKey'));
+
+  const listItens = document.querySelector('ul');
+  listItens.innerHTML = JSON.parse(localStorage.getItem('ListKey'));
+
+  const cells = document.querySelectorAll('.cell');
+  for(let index = 0; index < cells.length; index += 1){
+    cells[index].addEventListener('click', paintCell);
+  }
+}
+
+
+
 const paintCell = (event) => {
 
   wordSelected += event.target.innerText;
   event.target.classList.add('selected');
+  const li = document.querySelectorAll('li');
+
+  for(let index = 0; index < li.length; index +=1){
+    if(wordSelected == li[index].innerText){
+      const selected = document.querySelectorAll('.selected');
+      for(let index2 = 0; index2 < selected.length; index2 += 1){
+        selected[index2].classList.remove('selected');
+        selected[index2].classList.add('found');
+      }
+      li[index].classList.add('liFound');
+      wordSelected = '';
+    }
+  }
+  saveGame();
 }
 
 //função para gerar as celulas da matriz
@@ -23,9 +60,6 @@ const generateCells = () => {
     matriz.appendChild(line);
   }
 }
-
-generateCells();
-
 
 //Função que gera palavras aleatórias
 const addWords = () =>{
@@ -61,8 +95,43 @@ const randomLetters = () => {
   }
 }
 
-randomLetters();
-
-for(let index = arrayWords.length; index > 0; index +=1){
-  addWords();
+const addList = () => {
+  const ul = document.querySelector('ul');
+  for(let index = 0; index < arrayWords.length; index +=1){
+    const li = document.createElement('li');
+    li.innerText = arrayWords[index];
+    ul.appendChild(li);
+  }
 }
+
+const clear = () =>{
+  const btnClear = document.querySelector('.btn-clear');
+  btnClear.addEventListener('click', () => {
+    const selected = document.querySelectorAll('.cell');
+    for(let index = 0; index < selected.length; index +=1){
+      selected[index].classList.remove('selected');
+    }
+    wordSelected = '';
+  })
+}
+
+clear();
+
+const startGame = () => {
+  
+  if(localStorage.getItem('matrizKey')){
+    loadGame();
+  }else{
+    generateCells();
+    addList();
+    randomLetters();
+    for(let index = arrayWords.length; index > 0; index +=1){
+      addWords();
+    }
+  } 
+}
+startGame();
+
+
+
+
