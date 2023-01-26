@@ -5,7 +5,7 @@ function createTitle(){
     getTitle.appendChild(createH1);
 }
 
-function createCircle(){
+const createCircle = () => {
     const getPallete = document.getElementById('pallete');
     getPallete.style.display = 'flex';
 
@@ -34,7 +34,6 @@ const paintCircle = () => {
         getColourPallete[index].style.backgroundColor = createRandomColour();
     }
 }
-
 
 createTitle();
 createCircle();
